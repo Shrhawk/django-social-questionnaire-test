@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create FriendShip Test</title>
+</head>
+<body>
+{% if friend_ship_test_created %}
+    {% if friend_ship_test_submitted %}
+        <h3 style="color: green">Friend Ship Test Submitted successfully</h3>
+    {% else %}
+        <h3 style="color: green">Friend Ship Test Created successfully</h3>
+    {% endif %}
+    {% if comparison_result %}
+        <h3 style="color: #e8a746">{{comparison_result}}</h3>
+    {% endif %}
+    <h5>
+        share the test with friends at <a href="{% url 'attempt-test' friend_ship_test_instance.uuid %}">{% url 'attempt-test' friend_ship_test_instance.uuid %}</a>
+    </h5>
+{% endif %}
+<form method='POST' action=''>
+    {% csrf_token %}
+    <h3>FriendShip Test Details</h3>
+    <table border="1">{{friend_ship_test_form.as_table}}</table>
+    <hr>
+    <h3>Question Answers</h3>
+    <hr>
+    {% for form in questionnaire_form_set %}
+    <table border="1">
+        {{form.as_table}}
+    </table>
+    <hr>
+    {% endfor %}
+    {{ questionnaire_form_set.management_form }}
+    <button type="submit" class="btn btn-success btn-sm">Save</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,6 @@
+[client]
+host = localhost
+database = social_sweet_hearts
+user = root
+password = PASSWORD
+default-character-set = utf8
