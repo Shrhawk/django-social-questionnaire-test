@@ -14,20 +14,15 @@ from friend_ship_test.models import (
 
 
 class FriendShipTestView(View):
-    test_result_info = {
-        "questions_attempted": 0,
-        "correct_answers": 0,
-        "wrong_answers": 0
-    }
     questionnaire_form = QuestionnaireForm
     questionnaire_form_set = formset_factory(questionnaire_form, extra=0)
     template_name = 'create_test.html'
     comparison_result = ''
 
-    def update_test_results(self, friend_ship_test_result_instance):
-        friend_ship_test_result_instance.questions_attempted = self.test_result_info["questions_attempted"]
-        friend_ship_test_result_instance.correct_answers = self.test_result_info["correct_answers"]
-        friend_ship_test_result_instance.wrong_answers = self.test_result_info["wrong_answers"]
+    def update_test_results(self, friend_ship_test_result_instance, test_result_info):
+        friend_ship_test_result_instance.questions_attempted = test_result_info["questions_attempted"]
+        friend_ship_test_result_instance.correct_answers = test_result_info["correct_answers"]
+        friend_ship_test_result_instance.wrong_answers = test_result_info["wrong_answers"]
         friend_ship_test_result_instance.save()
 
     @staticmethod
@@ -82,6 +77,11 @@ class FriendShipCreateTestView(FriendShipTestView):
     def post(self, request, *args, **kwargs):
         friend_ship_test_form, friend_ship_test_created = self.friend_ship_test_form(request.POST), True
         friend_ship_test_instance = None
+        test_result_info = {
+            "questions_attempted": 0,
+            "correct_answers": 0,
+            "wrong_answers": 0
+        }
         questionnaire_form_set_submitted = self.questionnaire_form_set(request.POST)
         if friend_ship_test_form.is_valid() and questionnaire_form_set_submitted.is_valid():
             friend_ship_test_instance = friend_ship_test_form.save()
@@ -109,12 +109,12 @@ class FriendShipCreateTestView(FriendShipTestView):
                     test_result=test_result,
                     friend_ship_test_user=friend_ship_test_user
                 )
-                self.test_result_info["questions_attempted"] += 1
+                test_result_info["questions_attempted"] += 1
                 if test_result:
-                    self.test_result_info["correct_answers"] += 1
+                    test_result_info["correct_answers"] += 1
                 else:
-                    self.test_result_info["wrong_answers"] += 1
-            self.update_test_results(friend_ship_test_result_instance)
+                    test_result_info["wrong_answers"] += 1
+            self.update_test_results(friend_ship_test_result_instance, test_result_info)
         else:
             friend_ship_test_created = False
         return render(
@@ -176,6 +176,11 @@ class FriendShipTestAttemptView(FriendShipTestView):
         friend_ship_attempt_test_form = self.friend_ship_attempt_test_form(request.POST)
         friend_ship_test_submitted = True
         friend_ship_test_instance = None
+        test_result_info = {
+            "questions_attempted": 0,
+            "correct_answers": 0,
+            "wrong_answers": 0
+        }
         questionnaire_form_set_submitted = self.questionnaire_form_set(request.POST)
         if friend_ship_attempt_test_form.is_valid() and questionnaire_form_set_submitted.is_valid():
             friend_ship_attempt_test_form_data = friend_ship_attempt_test_form.cleaned_data
@@ -206,12 +211,12 @@ class FriendShipTestAttemptView(FriendShipTestView):
                     test_result=test_result,
                     friend_ship_test_user=friend_ship_test_user
                 )
-                self.test_result_info["questions_attempted"] += 1
+                test_result_info["questions_attempted"] += 1
                 if test_result:
-                    self.test_result_info["correct_answers"] += 1
+                    test_result_info["correct_answers"] += 1
                 else:
-                    self.test_result_info["wrong_answers"] += 1
-            self.update_test_results(friend_ship_test_result_instance)
+                    test_result_info["wrong_answers"] += 1
+            self.update_test_results(friend_ship_test_result_instance, test_result_info)
 
             friend_ship_owner_test_result_answers = FriendShipTestResult.objects.filter(
                 friend_ship_test=friend_ship_test_instance,
