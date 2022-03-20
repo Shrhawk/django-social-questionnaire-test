@@ -32,7 +32,9 @@ python manage.py runserver
 python manage.py createsuperuser
 ```
 
-8. Urls Information:
+8. Create the questions answers from admin panel
+
+9. Urls Information:
 
 ```shell
 open http://localhost:8000/friend-ship-test/create-test/
@@ -40,4 +42,4 @@ open http://localhost:8000/friend-ship-test/test-comparison/test-uuid/
 open http://localhost:8000/admin
 ```
 
-9. Screenshots under screenshots folder
+10. Screenshots under screenshots folder
