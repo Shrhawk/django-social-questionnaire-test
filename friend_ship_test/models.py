@@ -15,7 +15,7 @@ class Answer(BaseModel):
         ordering = ('id',)
 
     def __str__(self):
-        return str(self.id) + '.' + self.answer_text
+        return self.answer_text
 
 
 class Question(BaseModel):
@@ -29,7 +29,7 @@ class Question(BaseModel):
     def get_random_questions(cls):
         all_questions = list(cls.objects.all())
         try:
-            random_questions = random.sample(all_questions, 10)
+            random_questions = random.sample(all_questions, 20)
         except ValueError:
             return all_questions
         return random_questions
@@ -86,6 +86,9 @@ class FriendShipTestAnswer(BaseModel):
             self.answer,
             str(self.result)
         ])
+
+    def verify_answer(self, given_answer):
+        return str(self.answer).lower() == str(given_answer).lower()
 
 
 class FriendShipTestResult(BaseModel):

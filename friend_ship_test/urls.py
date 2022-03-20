@@ -6,6 +6,5 @@ from .views import (
 
 urlpatterns = [
     path('create-test/', FriendShipCreateTestView.as_view(), name='create-test'),
-    path('attempt-test/<test_uuid>/', FriendShipTestAttemptView.as_view(), name='attempt-test'),
-    path('test-comparison/<test_uuid>/', FriendShipTestAttemptView.as_view(), name='attempt-test'),
+    path('attempt-test/<test_uuid>/', FriendShipTestAttemptView.as_view(), name='attempt-test')
 ]

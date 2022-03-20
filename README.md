@@ -38,7 +38,7 @@ python manage.py createsuperuser
 
 ```shell
 open http://localhost:8000/friend-ship-test/create-test/
-open http://localhost:8000/friend-ship-test/test-comparison/test-uuid/
+open http://localhost:8000/friend-ship-test/attempt-test/test-uuid/
 open http://localhost:8000/admin
 ```
 
